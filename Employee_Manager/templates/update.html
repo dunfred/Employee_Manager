@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block main_body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <form method="post" action="" class="update-form">
+                {% csrf_token %}		
+                <h2 class="modal-title" >Update Book</h2>		
+                    {{form.as_p}}
+                    
+                <a type="button" class="btn btn-secondary" href="{% url 'read_all_emp' %}">Close</a>
+                <button type="submit" class="btn btn-primary">Done</button>                    
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main_body %}

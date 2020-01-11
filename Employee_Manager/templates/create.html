@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block main_body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 align="center">Add Employee</h2><br/>
+            <form method="POST" action="">
+                {% csrf_token %}                
+                {{ form.as_p }}
+                <button class="btn btn-primary form-control" type="submit">SUBMIT</button>
+                <a type="button" class="btn btn-secondary form-control" href="{% url 'read_all_emp' %}">Close</a>
+            </form>            
+        </div>
+    </div>
+</div>
+{% endblock main_body %}

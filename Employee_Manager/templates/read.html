@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block main_body%}
+<div class="container">
+    <h1 align="center">Employees Record </h1>
+    <div class="row">        
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <a class="btn btn-primary show-form" href="{% url 'create-emp' %}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add Employee
+            </a>
+            <table id="userTable" class="table table-md table-striped table-hover table-bordered table-responsive-md">
+                <tr><th>Registration No.</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Employee Type</th>
+                    <th>Date Of Birth</th>
+                    <th>Date Of Membership</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Province</th>
+                    <th>Contact No.</th>
+                    <th>Status</th>
+                    <th>Email</th>             
+                </tr>
+                {% if employees %}
+                {% for employee in employees %}
+                    <tr id="employee-{{employee.id}}">
+                        <td>{{employee.registration_no}}</td>
+                        <td>{{employee.first_name}}</td>
+                        <td>{{employee.last_name}}</td>
+                        <td>{{employee.employee_type}}</td>
+                        <td>{{employee.date_of_birth}}</td>
+                        <td>{{employee.date_of_membership}}</td>
+                        <td>{{employee.address}}</td>
+                        <td>{{employee.city}}</td>
+                        <td>{{employee.province}}</td>
+                        <td>{{employee.contact_no}}</td>
+                        <td>{{employee.status}}</td>
+                        <td>{{employee.email}}</td>
+                        <td>  
+                            <a class="btn btn-warning" href="{% url 'update-emp' employee.id %}">
+                                <span class="fa fa-edit"></span>
+                                {% comment %} Edit  {% endcomment %}
+                            </a>
+                        </td>
+                        <td>  
+                            <a class="btn btn-danger" onclick="confirmDelete('{{employee.first_name|safe}}', {{employee.id}});">
+                                <span class="fa fa-trash"></span>
+                                {% comment %} Delete  {% endcomment %}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <span class="blockquote"> No Employee Data Found </span>
+                {% endif %}
+            </table>
+        </div>
+
+        <!-- Modal 
+        <div class="modal fade" id="modal-book">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+</div>
+{% endblock main_body %}
+
+{% block javascript %}
+<!-- 
+    A simple Ajax script to make DELETE post request to django 
+    server and also remove deleted object field without page reload.
+-->
+<script>     
+    function confirmDelete(emp_name, emp_id) {
+        var conf= confirm("Are you sure you want to delete employee "+ emp_name +" from the database?");
+        if (conf == true)
+        {            
+            $.ajax({
+                url :  emp_id + "/delete/",
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                success: function(resp) {                    
+                    $("#employee-"+emp_id).html("");
+                    alert(resp.message);
+                },
+                error: function(resp){
+                    alert(resp.message);
+                },
+            });
+        }
+    };
+
+</script>
+{% endblock javascript %}
