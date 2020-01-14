@@ -22,8 +22,7 @@
                     <th>Province</th>
                     <th>Contact No.</th>
                     <th>Status</th>
-                    <th>Email</th>
-                    <th>Action</th>        
+                    <th>Email</th>       
                 </tr>
             </thead>
             <tfoot>
@@ -39,11 +38,10 @@
                     <th>Province</th>
                     <th>Contact No.</th>
                     <th>Status</th>
-                    <th>Email</th>           
-                    <th>Action</th>
+                    <th>Email</th>
                 </tr>
             </tfoot>
-             
+{% comment %}              
             {% if employees %}
             {% for employee in employees %}
             <tbody>
@@ -64,12 +62,12 @@
                     <td>  
                         <a align="center" class="btn btn-warning" href="{% url 'update-emp' employee.id %}">
                             <span class="fa fa-edit"></span>
-                            {% comment %} Edit {% endcomment %}
+                            Edit
                         </a>
                         <br/>
                         <a align="center" class="btn btn-danger" onclick="confirmDelete('{{employee.first_name|safe}}', {{employee.id}});">
                             <span class="fa fa-trash"></span>
-                            {% comment %} Delete  {% endcomment %}
+                            Delete 
                         </a>
                     </td>
                     
@@ -79,7 +77,7 @@
             {% else %}
             <span class="blockquote"> No Employee Data Found </span>
             {% endif %}
-            
+             {% endcomment %}
         </table>
     </div>
 </div>
@@ -92,16 +90,11 @@
 -->
 <script>     
     $(document).ready(function() {
-        $('#employeeTable').dataTable();   
-
-        {% comment %} $('#employeeTable').DataTable( {
+        $('#employeeTable').DataTable( {
         "processing": true,
         "serverSide": true,
-        "ajax": {
-            "url": "{% url 'all-employees-api' %}",
-            "type": "GET",
-            "dataType": "jsonp"
-        },
+        "ajax": "api/employees/?format=json",
+            
         "columns": [
             {"data":"registration_no"},
             {"data":"first_name"},
@@ -116,7 +109,7 @@
             {"data":"status"},
             {"data":"email"},
                 ]
-            });   {% endcomment %}
+            });  
         });   
 
 

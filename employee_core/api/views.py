@@ -11,5 +11,9 @@ class EmployeeObjectView(APIView):
         qs = Employee.objects.all()
         serializer = EmployeeObjectSerializer(qs, many=True) 
 
-        return Response(data=serializer.data)
+        data = {
+            "data": serializer.data,
+        }
+
+        return Response(data=data)
 
